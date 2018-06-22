@@ -1,5 +1,7 @@
+# Github:https://github.com/WillKoehrsen/automated-feature-engineering
+# Document:https://docs.featuretools.com
 
-# Introduction: Automated Feature Engineering
+## Introduction: Automated Feature Engineering
 
 In this notebook, we will look at an exciting development in data science: automated feature engineering. A machine learning model can only learn from the data we give it, and making sure that data is relevant to the task is one of the most crucial steps in the machine learning pipeline (this is made clear in the excellent paper ["A Few Useful Things to Know about Machine Learning"](https://homes.cs.washington.edu/~pedrod/papers/cacm12.pdf)). 
 
