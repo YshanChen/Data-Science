@@ -1,5 +1,5 @@
-##### Github:https://github.com/WillKoehrsen/automated-feature-engineering
-##### Docs:https://docs.featuretools.com
+##### Github: https://github.com/WillKoehrsen/automated-feature-engineering
+##### Docs: https://docs.featuretools.com
 
 ## Introduction: Automated Feature Engineering
 
