@@ -1,0 +1,138 @@
+theme(line, rect, text, title, aspect.ratio, axis.title, axis.title.x,
+  axis.title.x.top, axis.title.y, axis.title.y.right, axis.text, axis.text.x,
+  axis.text.x.top, axis.text.y, axis.text.y.right, axis.ticks, axis.ticks.x,
+  axis.ticks.y, axis.ticks.length, axis.line, axis.line.x, axis.line.y,
+  legend.background, legend.margin, legend.spacing, legend.spacing.x,
+  legend.spacing.y, legend.key, legend.key.size, legend.key.height,
+  legend.key.width, legend.text, legend.text.align, legend.title,
+  legend.title.align, legend.position, legend.direction, legend.justification,
+  legend.box, legend.box.just, legend.box.margin, legend.box.background,
+  legend.box.spacing, panel.background, panel.border, panel.spacing,
+  panel.spacing.x, panel.spacing.y, panel.grid, panel.grid.major,
+  panel.grid.minor, panel.grid.major.x, panel.grid.major.y, panel.grid.minor.x,
+  panel.grid.minor.y, panel.ontop, plot.background, plot.title, plot.subtitle,
+  plot.caption, plot.margin, strip.background, strip.placement, strip.text,
+  strip.text.x, strip.text.y, strip.switch.pad.grid, strip.switch.pad.wrap, ...,
+  complete = FALSE, validate = TRUE)
+
+#添加横纵坐标名称，添加图的名称
+p + xlab("x-axis name") + ylab("log3protein ratio") + ggtitle("22 commonly quantified UPS1 proteins");
+
+# x-axis范围设置方法
+p + scale_x_continuous(limits = c(-5,15))
+
+#要修改字体，先要初始化字体
+windowsFonts(myFont=windowsFont("Arial"))
+
+#对x、y轴name做修改
+p+theme(axis.title= element_text(size=15, family="myFont", color="black", face= "bold", vjust=0.5, hjust=0.5))
+
+#仅对y轴name做修改：
+p+theme(axis.title.y= element_text(size=15, family="myFont", color="black", face= "bold", vjust=0.5, hjust=0.5))
+
+#仅对y轴的刻度做修改：
+p+theme(axis.text.y= element_text(size=15, family="myFont", color="black", face= "bold", vjust=0.5, hjust=0.5))
+
+#对图片的title做修改
+p+theme(title= element_text(size=15, family="myFont", color="black", face= "bold", vjust=0.5, hjust=0.5))
+
+#对legend的内容做修改
+p+theme(legend.text= element_text(size=15, family="myFont", color="black", face= "bold", vjust=0.5, hjust=0.5))
+
+#隐藏所有图例
+theme(legend.position = "none")
+
+#把所有图例的标题去掉
+theme(legend.title=element_blank())
+
+#更改图例顺序
+scale_color_discrete(breaks = c('B','C','A','D'))
+
+#设置图例标题
+theme(legend.title = element_text(color="134", size=16, face="bold"))
+
+#设置图例标签
+theme(legend.text = element_text(color="azure4", size = 14, face = "bold"))
+
+#图例放到图的上方
+theme(legend.position = 'top')   ##同理可以取 bottom、right、left
+
+#坐标轴对换
++ coord_flip()
+置换x、y轴时有时候会导致某一坐标轴的坐标被逆转。比如说原x轴的数据是从左往右阅读的，在对换后，原来数据会从下往上给呈现。有时这是个问题。如果x是因子，我们可以对其用带参数limits=rev(levels(…))的函数scale_x_discrete()进行修正。
+如果是连续变量，我们可以使用函数scale_y_reverse 或者scale_x_reverse来逆转坐标轴。
+如果我们想改变分类变量的显示顺序，可以设置scale_x_discrete() or scale_y_discrete()函数就行。
+#因子坐标轴
+ggplot(PlantGrowth, aes(x=group, y=weight)) + geom_boxplot() + coord_flip() +
+scale_x_discrete(limits=rev(levels(PlantGrowth$group)))
+#连续变量的逆转
+ggplot(PlantGrowth, aes(x=group, y=weight)) + geom_boxplot() + scale_y_reverse()
+#改变分类变量顺序
+ggplot(PlantGrowth, aes(x=group, y=weight)) + geom_boxplot()+scale_x_discrete(limits=c("trt1","ctrl","trt2"))
+
+#设置x,y轴的连续变量范围
+p + scale_y_continuous(limits=c(0, 10), breaks=NULL)
+
+#设置x、y轴刻度相对比例
+sp <- ggplot(marathon, aes(x=Half,y=Full)) + geom_point()
+#1:1
+sp + coord_fixed() +
+scale_y_continuous(breaks=seq(0, 420, 30)) +
+scale_x_continuous(breaks=seq(0, 420, 30))
+#1:2 x轴刻度长度比y轴刻度长度
+sp + coord_fixed(ratio=1/2) +
+scale_y_continuous(breaks=seq(0, 420, 30)) +
+scale_x_continuous(breaks=seq(0, 420, 15))
+
+#设置刻度线的位置
+#连续变量
+ggplot(PlantGrowth, aes(x=group, y=weight)) + geom_boxplot() +
+scale_y_continuous(breaks=c(4, 4.25, 4.5, 5, 6, 8))
+#看到没有，刻度线位置已经按照breaks设置的参数改变了
+#如果是离散变量，则使用scale_x_discrete函数
+#通过limit函数来控制标签的个数和顺序
+ggplot(PlantGrowth, aes(x=group, y=weight)) + geom_boxplot() +
+scale_x_discrete(limits=c("trt2", "ctrl"))
+
+#去除刻度线、刻度标签和网格线
+如果想去除刻度标签，我们使用theme(axis.text.y = element_blank())（如果针对x,参数y改成x即可。
+如果想去除刻度线，在theme函数中使用axis.ticks.y = element_blank()，如果x、y轴都想去除axis.ticks.y改成axis.ticks即可。
+有时候网格线让整个图画显得复杂，我们也可以对此进行去除。breaks的参数值设为NULL就行了。
+
+#改变刻度标签的内容和显示效果
+hwp <- ggplot(heightweight, aes(x=ageYear, y=heightIn)) +
+geom_point()
+hwp + scale_y_continuous(breaks=c(50, 56, 60, 66, 72),
+labels=c("Tiny", "Really\nshort", "Short",
+"Medium", "Tallish"))
+#值得注意的是，若标签太长，可以用\n将文本放到下一行进行显示
+
+为了改变刻度标签的显示效果，我们可以在theme函数中设置element_text参数中angle的值。
+bp <- ggplot(PlantGrowth, aes(x=group, y=weight)) + geom_boxplot() +
+scale_x_discrete(breaks=c("ctrl", "trt1", "trt2"),
+labels=c("Control", "Treatment 1", "Treatment 2"))
+#垂直显示
+bp + theme(axis.text.x = element_text(angle=90, hjust=1, vjust=.5))
+#换个角度显示，angle是控制刻度标签显示的角度
+bp + theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1))
+#hjust和vjust是为了控制刻度标签在水平方向和垂直方向的位置
+
+#去除各个坐标轴标签
+theme(axis.title.x=element_blank())
+
+绘制折线图
+1、当x对应因子型变量时，必须使用命令aex（group=1）以确保ggplot知道这些点属于一组
+BOD1<-factor(BOD1$Time)
+ggplot(BOD1,aes(x=Time,y=demand,group=1))+geom_line()
+
+2、向折线添加数据标记
+在代码中加上geom_point()
+ggplot(BOD,aes(x=Time,y=demand))+geom_line()+geom_point()
+
+
+
+
+
+
+
+
